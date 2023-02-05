@@ -1,5 +1,6 @@
-import path from 'path';
-// const path = require('path');
+// import path from 'path';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path');
 
 /** @type {import('next').NextConfig} */
 module.exports = {

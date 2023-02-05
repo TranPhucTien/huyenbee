@@ -4,8 +4,12 @@
     left: 0;
     right: 0;
     height: var(--header-height);
-    border: 1px solid transparent;
+    border-bottom: 1px solid #eee;
     transition: all 0.25s linear;
+
+    box-shadow: 0 3px 6px rgb(28 28 28 / 10%);
+    background: var(--light-color);
+
     z-index: 99;
 }
 
@@ -22,6 +26,7 @@
     .logo {
         display: flex;
         align-items: center;
+        text-decoration: none;
 
         img {
             width: 56px;
@@ -35,20 +40,24 @@
             color: var(--primary-color);
             transition: color 0.25s linear;
         }
+
+        &:hover h1 {
+            color: var(--dark-color);
+        }
     }
 }
 
 .right {
-    input {
+    button {
         padding: 4px 12px 4px 40px;
         width: 280px;
         height: 40px;
 
-        text-transform: capitalize;
         font-size: 16px;
-        background: #f2f2f2;
+        background: #f1f4f6;
         border-radius: 8px;
         border: 1px solid transparent;
+        color: #8b94a1;
     }
 }
 
@@ -62,7 +71,7 @@
     top: 50%;
     transform: translateY(-50%);
 
-    font-size: 18px;
-    color: #555;
+    font-size: 24px;
+    color: #5e6d84;
     z-index: 1;
 }

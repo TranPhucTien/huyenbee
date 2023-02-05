@@ -1,14 +1,21 @@
 import { Banner } from '~/components/Banner';
-import { Header } from '~/components/Header';
+import { Category } from '~/components/Category';
+import { List } from '~/components/List';
 import Head from '~/components/shared/Head';
+import { DefaultLayout } from '~/layouts/DefaultLayout';
 
-export default function Home() {
+function Home() {
     return (
         <>
             <Head />
 
-            <Header />
             <Banner />
+            <Category />
+            <List />
         </>
     );
 }
+
+Home.layout = DefaultLayout;
+
+export default Home;
