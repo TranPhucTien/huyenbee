@@ -8,6 +8,7 @@ body {
     font-family: 'Be Vietnam Pro', sans-serif;
     font-size: 1.6rem;
     background-color: #f1f4f6;
+    line-height: 1.4;
 }
 
 img {
@@ -28,13 +29,39 @@ button {
     user-select: none;
 }
 
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
+    display: none;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.9);
+}
+
 .wrapper {
-    max-width: 1440px;
+    max-width: 1600px;
     margin: 0 auto;
 }
 
 .container {
-    max-width: 1170px;
+    max-width: 1270px;
     padding: 0 20px;
     margin-left: auto;
     margin-right: auto;
@@ -46,5 +73,22 @@ button {
         font-size: 3.8rem;
         font-weight: 600;
         margin-bottom: 24px;
+    }
+}
+
+.button {
+    &--outline {
+        font-size: 1.6rem;
+        font-weight: 700;
+        line-height: 20px;
+        margin-left: 4px;
+        border: 1px solid rgb(205, 210, 215);
+        padding: 0px 7px;
+        border-radius: 5px;
+        background: transparent;
+    }
+    &--text {
+        border: none;
+        background: transparent;
     }
 }

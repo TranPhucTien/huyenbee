@@ -1,8 +1,11 @@
 import classNames from 'classnames/bind';
 import Link from 'next/link';
+import { Autoplay, Navigation } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { FC, FormEvent } from 'react';
 import { MdAdd } from 'react-icons/md';
-import { useAppSelector } from '~/app';
+import { useSelector } from 'react-redux';
+import { RootState } from '~/app/store';
 import { categoryMenu } from '~/constants';
 import { Image } from '../Image';
 import styles from './List.module.scss';
@@ -10,12 +13,12 @@ import styles from './List.module.scss';
 const cx = classNames.bind(styles);
 
 const List: FC = () => {
-    const categoryCurrentId = useAppSelector(
-        (state: any) => state.category.value,
+    const currentCategoryId = useSelector(
+        (state: RootState) => state.category.value,
     );
 
     const category = categoryMenu.categories.find(
-        (item) => item.id === categoryCurrentId,
+        (item) => item.id === currentCategoryId,
     );
 
     const handleClickAddBtn = (e: FormEvent<EventTarget>) => {
@@ -33,8 +36,14 @@ const List: FC = () => {
                 </span>
                 <ul className={cx('row', 'list')}>
                     {category?.products?.map((item, index) => (
-                        <li className={cx('col', 'l-3', 'm-4', 'c-6', 'item')} key={index}>
-                            <Link href={`/${encodeURIComponent(item.id)}`} className={cx('group')}>
+                        <li
+                            className={cx('col', 'l-3', 'm-4', 'c-6', 'item')}
+                            key={index}
+                        >
+                            <Link
+                                href={`/detail/${item.id}`}
+                                className={cx('group')}
+                            >
                                 <div className={cx('img-wrapper')}>
                                     <Image
                                         src={item.image[0]}
@@ -50,7 +59,7 @@ const List: FC = () => {
                                     </span>
                                     <div className={cx('footer')}>
                                         <span className={cx('price')}>
-                                            {item.price}.000đ
+                                            {item.price}đ
                                         </span>
                                         <MdAdd
                                             className={cx('add-icon')}

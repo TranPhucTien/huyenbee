@@ -7,7 +7,7 @@ import '../styles/app.scss';
 
 type AppLayoutProps = AppProps & {
     Component: PageWithLayoutType;
-    pageProps: any;
+    // pageProps: any;
 };
 
 export default function App({ Component, pageProps }: AppLayoutProps) {

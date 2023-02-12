@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import classNames from 'classnames/bind';
 import { FC } from 'react';
 import { useDispatch } from 'react-redux';

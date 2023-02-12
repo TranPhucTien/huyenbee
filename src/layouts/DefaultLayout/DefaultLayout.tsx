@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Header } from '~/components/Header';
+import { Modal } from '~/components/Modal';
 import { LayoutProps } from '../PageWithLayoutType';
 
 interface Props {
@@ -11,6 +12,7 @@ const DefaultLayout: LayoutProps = ({ children }: Props) => {
         <>
             <Header />
             {children}
+            <Modal />
         </>
     );
 };
