@@ -1,7 +1,5 @@
 import classNames from 'classnames/bind';
 import Link from 'next/link';
-import { Autoplay, Navigation } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import { FC, FormEvent } from 'react';
 import { MdAdd } from 'react-icons/md';
 import { useSelector } from 'react-redux';

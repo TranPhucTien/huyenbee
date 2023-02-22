@@ -1,7 +1,9 @@
 import classNames from 'classnames/bind';
 import Link from 'next/link';
 import { FC } from 'react';
+import { useDispatch } from 'react-redux';
 import { Product } from '~/constants/category';
+import { hideModal } from '../Header/modeSlice';
 import { Image } from '../Image';
 import styles from './Modal.module.scss';
 
@@ -11,16 +13,36 @@ interface Props {
     subTitle: string;
     products: Product[] | undefined;
     full?: boolean;
+    visible?: boolean;
 }
 
-const searchModalContent: FC<Props> = ({ subTitle, products, full }) => {
+const SearchModalContent: FC<Props> = ({
+    subTitle,
+    products,
+    full,
+    visible = true,
+}) => {
+    const dispatch = useDispatch();
+
+    if (visible === false) {
+        return <></>;
+    }
+
+    const handleClickLink = () => {
+        dispatch(hideModal());
+    };
+
     return (
         <div className={cx('group')}>
             <div className={cx('subtitle')}>{subTitle}</div>
             <ul className={cx('list', { full })}>
                 {products?.map((item, index) => (
-                    <li className={cx('item')} key={index}>
-                        <Link href={'#'} className={cx('link')}>
+                    <li className={cx('item')} key={index} tabIndex={0}>
+                        <Link
+                            href={`/detail/${item.id}`}
+                            className={cx('link')}
+                            onClick={handleClickLink}
+                        >
                             <Image
                                 src={item.image[0]}
                                 alt={item.name}
@@ -39,4 +61,4 @@ const searchModalContent: FC<Props> = ({ subTitle, products, full }) => {
     );
 };
 
-export default searchModalContent;
+export default SearchModalContent;

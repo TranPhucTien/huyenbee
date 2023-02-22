@@ -1,5 +1,12 @@
 import classNames from 'classnames/bind';
-import { FC, MutableRefObject, useEffect, useRef, useState } from 'react';
+import {
+    ChangeEvent,
+    FC,
+    MutableRefObject,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import { BiSearch } from 'react-icons/bi';
 import { CgClose } from 'react-icons/cg';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,9 +20,14 @@ import SearchModalContent from './SearchModalContent';
 
 const cx = classNames.bind(styles);
 
+const TIME_SEARCH_DELAY = 500;
+
 const Modal: FC = () => {
     const searchInputRef = useRef() as MutableRefObject<HTMLInputElement>;
     const modalSearchRef = useRef<HTMLElement>(null);
+    const [loading, setLoading] = useState(false);
+    const [searchValue, setSearchValue] = useState('');
+    const [searchResult, setSearchResult] = useState<Product[] | []>([]);
 
     const isShowModal = useSelector(
         (state: RootState) => state.mode.isShowModal,
@@ -47,6 +59,7 @@ const Modal: FC = () => {
 
         window.addEventListener('keydown', handleKeydown);
         window.addEventListener('click', handleClose);
+
         return () => {
             window.removeEventListener('keydown', handleKeydown);
             window.removeEventListener('click', handleClose);
@@ -71,16 +84,25 @@ const Modal: FC = () => {
         setSearchValue('');
     };
 
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const searchValue = e.target.value;
+
+        if (!searchValue.startsWith(' ')) {
+            setSearchValue(searchValue);
+        }
+    };
+
     const allProduct = categoryMenu.categories
         .map((category) => category.products)
         .reduce((acc, val) => acc.concat(val), []);
 
-    const [searchValue, setSearchValue] = useState('');
-    const [searchResult, setSearchResult] = useState<Product[] | []>([]);
-
-    const debouncedValue = useDebounce({ value: searchValue, delay: 500 });
+    const debouncedValue = useDebounce({
+        value: searchValue,
+        delay: TIME_SEARCH_DELAY,
+    });
 
     useEffect(() => {
+        setLoading(true);
         if (!debouncedValue.trim()) {
             setSearchResult([]);
             return;
@@ -88,58 +110,20 @@ const Modal: FC = () => {
 
         const result = allProduct.filter((val) => {
             if (
-                removeAccents({ value: val.name.toLowerCase() }).includes(
-                    removeAccents({ value: searchValue.toLowerCase() }),
+                removeAccents({
+                    value: val.name.toLowerCase().trim(),
+                }).includes(
+                    removeAccents({ value: searchValue.toLowerCase().trim() }),
                 )
             ) {
                 return val;
             }
         });
 
+        setLoading(false);
         setSearchResult(result);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedValue]);
-
-    const modalContent = (searchResult: Product[]) => {
-        const inputLength = searchInputRef.current?.value.trim().length;
-        if (searchResult.length > 0 && inputLength > 0) {
-            return (
-                <SearchModalContent
-                    subTitle="Kết quả tìm kiếm: "
-                    products={searchResult}
-                    full
-                />
-            );
-        } else if (searchResult.length === 0 && inputLength > 0) {
-            console.log('Khoong tim kiem duowjc gi');
-            return (
-                <>
-                    <SearchModalContent
-                        subTitle="Sản phẩm bạn tìm kiếm không tồn tại :("
-                        products={searchResult}
-                    />
-                    <SearchModalContent
-                        subTitle="Sản phẩm phổ biến"
-                        products={category?.products}
-                        full
-                    />
-                </>
-            );
-        } else {
-            return (
-                <>
-                    <SearchModalContent
-                        subTitle="Sản phẩm đã tìm kiếm:"
-                        products={category?.products}
-                    />
-                    <SearchModalContent
-                        subTitle="Sản phẩm phổ biến:"
-                        products={category?.products}
-                    />
-                </>
-            );
-        }
-    };
 
     return (
         <section
@@ -147,6 +131,7 @@ const Modal: FC = () => {
             ref={modalSearchRef}
         >
             <div className={cx('card')}>
+                <input style={{ visibility: 'hidden', position: 'absolute' }} />
                 <header className={cx('header')}>
                     <form>
                         <label htmlFor="search">
@@ -159,28 +144,63 @@ const Modal: FC = () => {
                             type="search"
                             autoComplete="off"
                             autoCorrect="off"
+                            spellCheck={false}
                             enterKeyHint="search"
                             placeholder="Tìm kiếm..."
                             autoFocus={true}
-                            onChange={(event) => {
-                                setSearchValue(event.target.value);
-                            }}
+                            value={searchValue}
+                            onChange={handleChange}
                         />
                     </form>
                     <button
                         onClick={handleCloseModal}
                         className={cx('button--outline', 'btn-esc')}
+                        tabIndex={2}
                     >
                         esc
                     </button>
                     <button
                         onClick={handleCloseModal}
                         className={cx('button--text', 'btn-close')}
+                        tabIndex={2}
                     >
                         <CgClose />
                     </button>
                 </header>
-                <div className={cx('body')}>{modalContent(searchResult)}</div>
+                <div className={cx('body')}>
+                    {!!searchValue && searchResult.length > 0 ? (
+                        <SearchModalContent
+                            subTitle="Kết quả tìm kiếm: "
+                            products={searchResult}
+                            full
+                            visible={!!searchValue && searchResult.length > 0}
+                        />
+                    ) : !!searchValue && searchResult.length === 0 ? (
+                        <>
+                            <SearchModalContent
+                                subTitle="Rất tiếc, không có sản phẩm bạn tìm kiếm!"
+                                products={searchResult}
+                                visible={!loading}
+                            />
+                            <SearchModalContent
+                                subTitle="Sản phẩm phổ biến:"
+                                products={category?.products}
+                                full
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <SearchModalContent
+                                subTitle="Sản phẩm đã tìm kiếm:"
+                                products={category?.products}
+                            />
+                            <SearchModalContent
+                                subTitle="Sản phẩm phổ biến:"
+                                products={category?.products}
+                            />
+                        </>
+                    )}
+                </div>
             </div>
         </section>
     );

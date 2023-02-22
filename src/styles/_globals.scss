@@ -92,3 +92,7 @@ input[type='search']::-webkit-search-results-decoration {
         background: transparent;
     }
 }
+
+.lazy-load-image-background.lazy-load-image-loaded {
+    display: block !important;
+}
