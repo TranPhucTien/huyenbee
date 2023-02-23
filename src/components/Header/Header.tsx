@@ -33,7 +33,9 @@ const Header: FC = () => {
                             <BiSearch className={cx('search-icon')} />
                             <button onClick={handleClickSearch}>
                                 <span>Tìm kiếm...</span>
-                                <span className={cx('button--outline')}>
+                                <span
+                                    className={cx('button', 'button--outline')}
+                                >
                                     Ctrl+K
                                 </span>
                             </button>

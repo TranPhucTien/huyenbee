@@ -36,7 +36,7 @@ const Product: FC<Props> = ({ product }) => {
                 <div className={cx('footer')}>
                     <span className={cx('price')}>{product.price}đ</span>
                     <MdAdd
-                        className={cx('add-icon')}
+                        className={cx('button--icon')}
                         onClick={(e) => handleClickAddBtn(e)}
                     />
                 </div>

@@ -154,14 +154,14 @@ const Modal: FC = () => {
                     </form>
                     <button
                         onClick={handleCloseModal}
-                        className={cx('button--outline', 'btn-esc')}
+                        className={cx('button', 'button--outline', 'btn-esc')}
                         tabIndex={2}
                     >
                         esc
                     </button>
                     <button
                         onClick={handleCloseModal}
-                        className={cx('button--text', 'btn-close')}
+                        className={cx('button', 'button--text', 'btn-close')}
                         tabIndex={2}
                     >
                         <CgClose />

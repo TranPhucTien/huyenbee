@@ -42,7 +42,7 @@
         }
 
         &:hover h1 {
-            color: var(--dark-color);
+            color: var(--text-color);
         }
     }
 }
@@ -58,10 +58,10 @@
         height: 40px;
 
         font-size: 16px;
-        background: #f1f4f6;
+        background: var(--background-color);
         border-radius: 8px;
         border: 1px solid transparent;
-        color: #8b94a1;
+        color: var(--steel-blue-color);
         cursor: pointer;
 
         span:first-child {
@@ -81,6 +81,6 @@
     transform: translateY(-50%);
 
     font-size: 2.4rem;
-    color: #5e6d84;
+    color: var(--steel-blue-color);
     z-index: 1;
 }

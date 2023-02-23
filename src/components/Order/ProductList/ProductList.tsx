@@ -14,10 +14,7 @@ const ProductList: FC<Props> = ({ data }) => {
     return (
         <div className={cx('row')}>
             {data.map((product, key) => (
-                <div
-                    className={cx('col', 'l-3', 'm-4', 'c-12', 'wrapper')}
-                    key={key}
-                >
+                <div className={cx('col', 'l-3', 'm-4', 'c-12')} key={key}>
                     <ProductItem product={product} />
                 </div>
             ))}
